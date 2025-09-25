@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Meta Information -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="The Shape Theorem in First-Passage Percolation: A comprehensive overview"
+    />
+    <meta name="author" content="Shuta Nakajima" />
+    <title>The Shape Theorem in First-Passage Percolation</title>
+
+    <!-- MathJax for LaTeX rendering -->
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$']],
+          displayMath: [['$$', '$$']]
+        },
+        svg: { fontCache: 'global' }
+      };
+    </script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+    <!-- Styles -->
+    <style>
+      /* Reset and basic typography */
+      html, body {
+        margin: 0;
+        padding: 0;
+        background-color: #f8f9fa;
+        font-family: "Arial", sans-serif;
+        line-height: 1.7;
+        color: #2c3e50;
+      }
+
+      /* Main container for the article content */
+      .article {
+        width: 85%;
+        max-width: 1100px;
+        margin: 40px auto;
+        background: #fff;
+        padding: 30px;
+        box-shadow: 0 0 12px rgba(0, 0, 0, 0.15);
+        border-radius: 12px;
+      }
+
+      /* Headings */
+      h1 {
+        font-family: "Georgia", serif;
+        text-align: center;
+        font-size: 28px;
+        color: #1a5276;
+        margin-bottom: 15px;
+      }
+
+      h2 {
+        font-family: "Georgia", serif;
+        font-size: 22px;
+        color: #154360;
+        border-bottom: 2px solid #3498db;
+        padding-bottom: 5px;
+        margin-top: 30px;
+      }
+
+      h3 {
+        font-size: 20px;
+        color: #2c3e50;
+        margin-top: 20px;
+      }
+
+      /* Paragraphs and lists */
+      p, ul {
+        font-size: 18px;
+        margin: 15px 0;
+      }
+
+      ul {
+        list-style-type: disc;
+        padding-left: 40px;
+      }
+
+      /* Highlighted blocks for emphasis */
+      .highlight, .definition, .theorem {
+        background: #ecf0f1;
+        padding: 15px;
+        border-left: 6px solid #2980b9;
+        margin: 20px 0;
+        border-radius: 6px;
+      }
+
+      .theorem {
+        border-left-color: #e74c3c;
+        background: #fdf2f2;
+      }
+
+      .definition {
+        border-left-color: #27ae60;
+        background: #f4f8f4;
+      }
+
+      /* Titles for definitions and theorems */
+      .definition-title, .theorem-title {
+        font-weight: bold;
+        font-size: 18px;
+        color: #1a5276;
+        margin-bottom: 8px;
+      }
+
+      /* Math expressions styling */
+      .math {
+        text-align: center;
+        margin: 20px 0;
+      }
+
+      /* Footer styling */
+      .footer {
+        margin-top: 30px;
+        font-size: 14px;
+        color: #7f8c8d;
+        padding-top: 15px;
+        border-top: 1px solid #ccc;
+      }
+
+      /* Responsive design for smaller screens */
+      @media (max-width: 600px) {
+        .article {
+          width: 95%;
+          padding: 20px;
+        }
+        p, ul {
+          font-size: 16px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="article" role="main">
+      <!-- Header Section -->
+      <header>
+        <h1>The Shape Theorem in First-Passage Percolation</h1>
+      </header>
+
+      <!-- Section 1: Introduction -->
+      <section>
+        <h2>1. Introduction</h2>
+        <p>
+          The shape theorem is one of the most fundamental results in first-passage percolation (FPP), 
+          establishing the asymptotic shape of the region that can be reached within a given time. 
+          This result provides the foundation for understanding the macroscopic behavior of random growth processes 
+          and has deep connections to integrable probability and the Kardar-Parisi-Zhang (KPZ) universality class.
+        </p>
+        
+        <div class="highlight">
+          <p>
+            <strong>Historical Context:</strong> The shape theorem was first established by Richardson (1973) 
+            for oriented percolation and later generalized by Kesten (1986) for first-passage percolation 
+            on $\mathbb{Z}^d$. This result represents a law of large numbers for first-passage times.
+          </p>
+        </div>
+      </section>
+
+      <!-- Section 2: Model Setup -->
+      <section>
+        <h2>2. Model Setup</h2>
+        <div class="definition">
+          <div class="definition-title">First-Passage Percolation Model</div>
+          <p>
+            Let $\mathbb{Z}^d$ be the $d$-dimensional integer lattice with $d \geq 2$. 
+            To each edge $e$ of the lattice, we assign an independent, identically distributed (i.i.d.) 
+            random variable $\tau_e \geq 0$ representing the "passage time" through edge $e$.
+          </p>
+          <p>
+            For vertices $x, y \in \mathbb{Z}^d$, define the <strong>first-passage time</strong>:
+          </p>
+          <div class="math">
+            $$T(x, y) = \inf_{\gamma: x \to y} \sum_{e \in \gamma} \tau_e$$
+          </div>
+          <p>
+            where the infimum is taken over all nearest-neighbor paths $\gamma$ from $x$ to $y$.
+          </p>
+        </div>
+      </section>
+
+      <!-- Section 3: Time Constant -->
+      <section>
+        <h2>3. The Time Constant</h2>
+        <p>
+          The key quantity in the shape theorem is the time constant, which describes the 
+          asymptotic growth rate in different directions.
+        </p>
+        
+        <div class="definition">
+          <div class="definition-title">Time Constant</div>
+          <p>
+            For a unit vector $u \in \mathbb{S}^{d-1}$, the <strong>time constant</strong> is defined as:
+          </p>
+          <div class="math">
+            $$\mu(u) = \lim_{n \to \infty} \frac{T(0, \lfloor nu \rfloor)}{n}$$
+          </div>
+          <p>
+            This limit exists almost surely and is deterministic by Kingman's subadditive ergodic theorem.
+          </p>
+        </div>
+
+        <h3>Properties of the Time Constant</h3>
+        <ul>
+          <li><strong>Homogeneity:</strong> $\mu(\lambda u) = \lambda \mu(u)$ for $\lambda > 0$</li>
+          <li><strong>Convexity:</strong> $\mu$ is convex as a function on $\mathbb{R}^d$</li>
+          <li><strong>Symmetry:</strong> $\mu$ inherits the symmetries of the lattice</li>
+          <li><strong>Strict Positivity:</strong> $\mu(u) > 0$ for all $u \neq 0$ (under mild conditions)</li>
+        </ul>
+      </section>
+
+      <!-- Section 4: The Shape Theorem -->
+      <section>
+        <h2>4. The Shape Theorem</h2>
+        <div class="theorem">
+          <div class="theorem-title">Shape Theorem (Kesten, 1986)</div>
+          <p>
+            Let $\tau_e$ have finite mean $\mathbb{E}[\tau_e] < \infty$. Define the <strong>limit shape</strong>:
+          </p>
+          <div class="math">
+            $$B = \{x \in \mathbb{R}^d : \mu(x) \leq 1\}$$
+          </div>
+          <p>
+            Then for any $\varepsilon > 0$:
+          </p>
+          <div class="math">
+            $$\lim_{t \to \infty} \mathbb{P}\left((1-\varepsilon)tB \subseteq \{x : T(0,x) \leq t\} \subseteq (1+\varepsilon)tB\right) = 1$$
+          </div>
+          <p>
+            In other words, the set of points reachable within time $t$ converges in shape to $tB$ as $t \to \infty$.
+          </p>
+        </div>
+
+        <h3>Geometric Interpretation</h3>
+        <p>
+          The shape theorem tells us that:
+        </p>
+        <ul>
+          <li>The reachable set $\{x : T(0,x) \leq t\}$ becomes approximately deterministic for large $t$</li>
+          <li>The boundary fluctuations are of smaller order than the linear growth</li>
+          <li>The limit shape $B$ is convex, compact, and symmetric about the origin</li>
+        </ul>
+      </section>
+
+      <!-- Section 5: Proof Strategy -->
+      <section>
+        <h2>5. Proof Strategy</h2>
+        <p>
+          The proof of the shape theorem combines several powerful techniques:
+        </p>
+
+        <h3>Step 1: Subadditivity</h3>
+        <p>
+          The key observation is that first-passage times satisfy a subadditive property:
+        </p>
+        <div class="math">
+          $$T(0, x+y) \leq T(0, x) + T(x, x+y)$$
+        </div>
+        <p>
+          This allows us to apply Kingman's subadditive ergodic theorem to establish 
+          the existence of the time constant $\mu(u)$.
+        </p>
+
+        <h3>Step 2: Concentration</h3>
+        <p>
+          Using martingale techniques or the Azuma-Hoeffding inequality, one can show that 
+          first-passage times concentrate around their mean:
+        </p>
+        <div class="math">
+          $$\mathbb{P}(|T(0, nu) - n\mu(u)| \geq \lambda \sqrt{n}) \leq 2e^{-c\lambda^2}$$
+        </div>
+        <p>
+          for some constant $c > 0$.
+        </p>
+
+        <h3>Step 3: Convexity and Regularity</h3>
+        <p>
+          The convexity of $\mu$ ensures that the limit shape $B$ is well-behaved. 
+          Under additional moment conditions, one can show that $B$ has smooth boundary.
+        </p>
+      </section>
+
+      <!-- Section 6: Beyond the Shape Theorem -->
+      <section>
+        <h2>6. Beyond the Shape Theorem: Fluctuations</h2>
+        <p>
+          While the shape theorem describes the leading-order behavior, understanding 
+          the fluctuations around the limit shape is a central challenge in the field.
+        </p>
+
+        <h3>Shape Fluctuations</h3>
+        <div class="highlight">
+          <p>
+            <strong>Key Question:</strong> What is the order of fluctuations of the boundary 
+            of the reachable set around the limit shape?
+          </p>
+          <p>
+            It is conjectured that in dimension $d = 2$, the boundary fluctuations are of order $t^{1/3}$, 
+            consistent with KPZ universality. However, this remains largely open.
+          </p>
+        </div>
+
+        <h3>Recent Results on Shape Fluctuations</h3>
+        <ul>
+          <li><strong>Divergence Results:</strong> Under general conditions, shape fluctuations 
+              can diverge faster than any polynomial (Nakajima, 2020)</li>
+          <li><strong>Tail Estimates:</strong> Under exponential tail conditions, 
+              logarithmic fluctuations can be established (Cosco-Nakajima, 2023)</li>
+          <li><strong>Edge Cases:</strong> For specific distributions, exact fluctuation 
+              orders have been determined</li>
+        </ul>
+      </section>
+
+      <!-- Section 7: Applications and Connections -->
+      <section>
+        <h2>7. Applications and Connections</h2>
+        
+        <h3>7.1 Connection to the KPZ Equation</h3>
+        <p>
+          The height function $h(t,x) = T(0, (t,x))$ in $(1+1)$-dimensional FPP 
+          is believed to satisfy the same universal fluctuation behavior as 
+          solutions to the Kardar-Parisi-Zhang (KPZ) equation:
+        </p>
+        <div class="math">
+          $$\frac{\partial h}{\partial t} = \nu \nabla^2 h + \frac{\lambda}{2}(\nabla h)^2 + \eta(t,x)$$
+        </div>
+
+        <h3>7.2 Random Growth Models</h3>
+        <p>
+          The shape theorem has applications in:
+        </p>
+        <ul>
+          <li><strong>Interface growth:</strong> Crystal growth, bacterial colonies</li>
+          <li><strong>Polymer models:</strong> Directed polymers in random environments</li>
+          <li><strong>Queueing theory:</strong> Multi-server systems</li>
+          <li><strong>Epidemic models:</strong> Spread of diseases or information</li>
+        </ul>
+
+        <h3>7.3 Integrable Cases</h3>
+        <p>
+          In certain special cases (e.g., exponential weights, geometric last-passage percolation), 
+          exact solutions are available through connections to:
+        </p>
+        <ul>
+          <li>Random matrix theory</li>
+          <li>Symmetric functions</li>
+          <li>Bethe ansatz techniques</li>
+        </ul>
+      </section>
+
+      <!-- Section 8: Open Problems -->
+      <section>
+        <h2>8. Open Problems and Future Directions</h2>
+        
+        <h3>Major Open Questions</h3>
+        <ul>
+          <li><strong>KPZ Fluctuations:</strong> Prove that 2D FPP boundary fluctuations 
+              are of order $t^{1/3}$ under general conditions</li>
+          <li><strong>Curvature Conjecture:</strong> Show that the limit shape boundary 
+              has uniformly positive curvature</li>
+          <li><strong>Geodesic Structure:</strong> Understand the geometry of infinite geodesics</li>
+          <li><strong>Higher Dimensions:</strong> Determine the correct fluctuation exponents 
+              for $d \geq 3$</li>
+        </ul>
+
+        <h3>Recent Progress</h3>
+        <p>
+          Recent work has made progress on:
+        </p>
+        <ul>
+          <li>Moderate deviation principles</li>
+          <li>Large deviation rate functions</li>
+          <li>Maximal edge-traversal times</li>
+          <li>Lipschitz properties of time constants</li>
+        </ul>
+      </section>
+
+      <!-- Section 9: Conclusion -->
+      <section>
+        <h2>9. Conclusion</h2>
+        <p>
+          The shape theorem in first-passage percolation represents a beautiful intersection 
+          of probability theory, analysis, and statistical physics. While the basic shape theorem 
+          is now well-established, the study of fluctuations and connections to integrable 
+          probability continues to be an active and exciting area of research.
+        </p>
+        
+        <div class="highlight">
+          <p>
+            The journey from the classical shape theorem to modern developments in KPZ universality 
+            illustrates how foundational results in probability theory continue to inspire 
+            new mathematical discoveries and deepen our understanding of random growth phenomena.
+          </p>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="footer">
+        <p>Presented by <strong>Shuta Nakajima</strong> | Date: 2025.01.25</p>
+        <p>
+          <em>References include works by Richardson (1973), Kesten (1986), 
+          and recent developments by various researchers in the field.</em>
+        </p>
+      </footer>
+    </main>
+  </body>
+</html>
